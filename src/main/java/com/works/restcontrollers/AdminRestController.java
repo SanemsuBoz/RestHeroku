@@ -6,6 +6,7 @@ import com.works.entities.User;
 import com.works.repositories.RoleRepository;
 import com.works.utils.ERest;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
@@ -21,25 +22,8 @@ public class AdminRestController {
     }
 
     @GetMapping("/adminAdd")
-    public Map<ERest, Object> adminAdd() {
+    public Map<ERest, Object> adminAdd(@RequestBody User u) {
         Map<ERest, Object> hm = new LinkedHashMap<>();
-
-        User u = new User();
-
-        Optional<Role> r1 = rRepo.findById(1L);
-        Optional<Role> r2 = rRepo.findById(2L);
-        List<Role> rLs = new ArrayList<>();
-        rLs.add(r1.get());
-        rLs.add(r2.get());
-        u.setRoles(rLs);
-
-        u.setPassword("12345");
-        u.setTokenExpired(true);
-        u.setEnabled(true);
-        u.setEmail("zehra@mail.com");
-        u.setLastName("Bilsin");
-        u.setFirstName("Zehra");
-
         User nu = service.register(u);
         hm.put(ERest.result, nu);
         return hm;
